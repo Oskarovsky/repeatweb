@@ -24,7 +24,7 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<User> newUser(UserRequest user){
+    public ResponseEntity<User> newUser(UserRequest user) {
         return new ResponseEntity<>(new User(), HttpStatus.OK);
     }
 
@@ -35,7 +35,7 @@ public class UserResource {
 
     @PutMapping("/id")
     public ResponseEntity<User> updateUser(@PathVariable("id") String id,
-                                           UserRequest user){
+                                           UserRequest user) {
         return new ResponseEntity<>(new User(), HttpStatus.OK);
     }
 }
