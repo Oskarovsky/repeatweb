@@ -8,5 +8,5 @@ public class User {
     String id;
     String identity;
     String name;
-    //Role role
+    Role role;
 }
