@@ -13,7 +13,7 @@
                 $scope.create = function (category) {
                     CategoryService.create(category).then(
                         function (data) {
-                            console.log("Success on create Category!!!")
+                            console.log("Success on create Category!!!");
                             $state.go('categories')},
                         function (err) {
                             console.log("Error on create Category!!!")
