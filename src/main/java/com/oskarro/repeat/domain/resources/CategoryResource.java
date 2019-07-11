@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -40,7 +39,7 @@ public class CategoryResource {
             @ApiResponse(code = 200, message = "Categories found"),
             @ApiResponse(code = 404, message = "Category not found"),})
     public ResponseEntity<List<Category>> findAll() {
-        return ResponseEntity.ok(Arrays.asList(new Category(), new Category()));
+        return ResponseEntity.ok(this.categoryService.findAll());
     }
 
     @PostMapping
@@ -48,8 +47,8 @@ public class CategoryResource {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Category created successfully"),
             @ApiResponse(code = 400, message = "Invalid request")})
-    public ResponseEntity<Category> newCategory(CategoryRequest category) {
-        return new ResponseEntity<>(new Category(), HttpStatus.CREATED);
+    public ResponseEntity<Category> newCategory(@RequestBody CategoryRequest category) {
+        return new ResponseEntity<>(this.categoryService.create(category), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

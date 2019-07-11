@@ -4,6 +4,7 @@ import com.oskarro.repeat.domain.exceptions.CategoryNotFoundException;
 import com.oskarro.repeat.domain.models.Category;
 import com.oskarro.repeat.domain.repository.CategoryRepository;
 import com.oskarro.repeat.domain.vo.CategoryRequest;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Document(collection = "users")
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;

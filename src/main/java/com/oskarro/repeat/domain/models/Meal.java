@@ -2,39 +2,31 @@ package com.oskarro.repeat.domain.models;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
-@Table(name = "meal")
+@Document(collection = "meals")
 public class Meal {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     String id;
 
     String title;
 
     String content;
 
-    @ManyToOne
     User author;
 
-    @OneToMany
     Set<User> mandatoryReviewers = new HashSet<>();
 
-    @ElementCollection
     Set<Opinion> reviewers = new HashSet<>();
 
-    @OneToMany
     Set<Category> categories = new HashSet<>();
 
-    @ElementCollection
     Set<Tag> tags = new HashSet<>();
 
     public Opinion opinion(String userId, String status) {
