@@ -1,10 +1,9 @@
 package com.oskarro.repeat.domain.models;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 

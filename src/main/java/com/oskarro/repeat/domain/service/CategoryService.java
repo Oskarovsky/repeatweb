@@ -1,18 +1,13 @@
 package com.oskarro.repeat.domain.service;
 
-import com.oskarro.repeat.domain.exceptions.CategoryNotFoundException;
 import com.oskarro.repeat.domain.models.Category;
 import com.oskarro.repeat.domain.repository.CategoryRepository;
 import com.oskarro.repeat.domain.vo.CategoryRequest;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
-@Document(collection = "users")
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -21,38 +16,29 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    @Transactional
-    public Category update(Category category) {
-        return this.categoryRepository.save(category);
+    public Mono<Category> update(String id, CategoryRequest category) {
+        return this.categoryRepository.findById(id).flatMap(categoryDatabase -> {
+            categoryDatabase.setName(category.getName());
+            return this.categoryRepository.save(categoryDatabase);
+        });
     }
 
-    @Transactional
-    public Category create(CategoryRequest request) {
+    public Mono<Category> create(CategoryRequest request) {
         Category category = new Category();
         category.setName(request.getName());
         return this.categoryRepository.save(category);
     }
 
-    @Transactional
     public void delete(String id) {
-        final Optional<Category> category = this.categoryRepository.findById(id);
-        category.ifPresent(this.categoryRepository::delete);
+        this.categoryRepository.deleteById(id);
     }
 
-    public List<Category> findAll() {
+    public Flux<Category> findAll() {
         return this.categoryRepository.findAll();
     }
 
-    public List<Category> findByName(String name) {
-        return this.categoryRepository.findByName(name);
-    }
 
-    public Category findOne(String id) {
-        final Optional<Category> category = this.categoryRepository.findById(id);
-        if (category.isPresent()) {
-            return category.get();
-        } else {
-            throw new CategoryNotFoundException(id);
-        }
+    public Mono<Category> findOne(String id) {
+        return this.categoryRepository.findById(id);
     }
 }
