@@ -2,17 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.oskarro</groupId>
+    <artifactId>repeat</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>repeat</name>
+    <description>Webservice for good food fans</description>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.oskarro</groupId>
-    <artifactId>repeat</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>repeat</name>
-    <description>Webservice for good food fans</description>
 
     <properties>
         <java.version>11</java.version>
@@ -69,12 +72,55 @@
 
     </dependencies>
 
+
     <build>
+        <finalName>repeat</finalName>
         <plugins>
             <plugin>
+
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.30.0</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>repeatimage/${project.build.finalName}</name>
+                            <build>
+                                <from>openjdk:latest</from>
+                                <entryPoint>java -Dspring.profiles.active=container -jar /application/${project.build.finalName}.jar</entryPoint>
+                                <assembly>
+                                    <basedir>/application</basedir>
+                                    <descriptorRef>artifact</descriptorRef>
+                                    <inline>
+                                        <id>assembly</id>
+                                        <files>
+                                            <file>
+                                                <source>target/${project.build.finalName}.jar</source>
+                                            </file>
+                                        </files>
+                                    </inline>
+                                </assembly>
+                                <tags>
+                                    <tag>latest</tag>
+                                </tags>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                            </build>
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+                            </run>
+                            <alias>${project.build.finalName}</alias>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
