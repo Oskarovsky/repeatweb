@@ -17,10 +17,12 @@ public class CategoryService {
     }
 
     public Mono<Category> update(String id, CategoryRequest category) {
-        return this.categoryRepository.findById(id).flatMap(categoryDatabase -> {
-            categoryDatabase.setName(category.getName());
-            return this.categoryRepository.save(categoryDatabase);
-        });
+        return this.categoryRepository
+                .findById(id)
+                .flatMap(categoryDatabase -> {
+                    categoryDatabase.setName(category.getName());
+                    return this.categoryRepository.save(categoryDatabase);
+                });
     }
 
     public Mono<Category> create(CategoryRequest request) {

@@ -3,21 +3,14 @@ package com.oskarro.repeat.domain.resources;
 import com.oskarro.repeat.domain.models.Category;
 import com.oskarro.repeat.domain.service.CategoryService;
 import com.oskarro.repeat.domain.vo.CategoryRequest;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/category")
-@Api(tags = "category")
 public class CategoryResource {
 
     private final CategoryService categoryService;
